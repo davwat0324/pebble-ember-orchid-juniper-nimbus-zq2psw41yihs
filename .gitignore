@@ -1,0 +1,16 @@
+# build output
+build/
+dist/
+*.spec
+__pycache__/
+*.pyc
+
+# never commit data or local configuration
+*.csv
+*.xlsx
+*.xlsm
+*.jsonl
+settings.json
+spectrum.json
+site_config.py
+.env
