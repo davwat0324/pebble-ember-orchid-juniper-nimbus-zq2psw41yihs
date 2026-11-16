@@ -1,13 +1,13 @@
 """Employee names, status and email from Spectrum, read with the user's own Spectrum SQL login.
 
-Reads the custom email view set in the sign-in box (one row per employee). If no view is set, or
-the login can't see it yet (not granted), it falls back to the same query on the employee master
-views.
+Reads the custom email view (Z_CA_EMP_EMAILS by default; one row per employee). If the login can't
+see the view, it falls back to the same query on the employee master views (which most logins
+are not granted, so grant SELECT on the view).
 
-The server, database and view are deliberately NOT in the source or in the released .exe (the
-GitHub repo and its releases are public). Each user types them once in the Spectrum sign-in box
-and they are saved in %APPDATA%\\Remind\\settings.json. REMIND_SPECTRUM_SERVER / _DATABASE /
-_EMAIL_VIEW environment variables override them (handy for development).
+The server and database are deliberately NOT in the source or in the released .exe (the GitHub
+repo and its releases are public). Each user types them once in the Spectrum sign-in box and they
+are saved in %APPDATA%\\Remind\\settings.json. The Email view box in that dialog (or the
+REMIND_SPECTRUM_SERVER / _DATABASE / _EMAIL_VIEW environment variables) overrides the default view.
 """
 from __future__ import annotations
 
@@ -18,6 +18,7 @@ import loader
 import store
 
 DEFAULT_DATABASE = "Spectrum"
+DEFAULT_VIEW = "Z_CA_EMP_EMAILS"  # custom view: Employee, First_Name, Last_Name, Status, Email (one row per employee)
 
 FALLBACK_SQL = """
 SELECT LTRIM(RTRIM(m.Employee_Code)) AS Employee,
@@ -38,7 +39,7 @@ def site() -> dict:
     return {
         "server": os.environ.get("REMIND_SPECTRUM_SERVER") or s.get("spectrum_server", ""),
         "database": os.environ.get("REMIND_SPECTRUM_DATABASE") or s.get("spectrum_database") or DEFAULT_DATABASE,
-        "view": os.environ.get("REMIND_SPECTRUM_EMAIL_VIEW") or s.get("spectrum_view", ""),
+        "view": os.environ.get("REMIND_SPECTRUM_EMAIL_VIEW") or s.get("spectrum_view") or DEFAULT_VIEW,
     }
 
 

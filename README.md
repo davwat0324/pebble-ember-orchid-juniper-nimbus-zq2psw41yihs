@@ -25,7 +25,7 @@ Remind needs:
 - Microsoft ODBC Driver 17 or 18 for SQL Server
 
 The first time you look up emails, Remind asks for the Spectrum **server**, **database** and, optionally, the
-**email view**, plus your Spectrum user name and password. Ask whoever set Remind up for the server details.
+**email view** (defaults to `Z_CA_EMP_EMAILS`), plus your Spectrum user name and password. Ask whoever set Remind up for the server details.
 They are saved only on your PC (`%APPDATA%\Remind`), and the password is encrypted with Windows DPAPI.
 
 ## Updates

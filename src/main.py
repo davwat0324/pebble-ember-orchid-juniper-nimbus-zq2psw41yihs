@@ -154,7 +154,7 @@ class LoginDialog(QDialog):
         self.server.setPlaceholderText("SQL Server host name")
         self.database = QLineEdit(site["database"])
         self.view = QLineEdit(site["view"])
-        self.view.setPlaceholderText("optional - custom view with employee emails")
+        self.view.setPlaceholderText(spectrum.DEFAULT_VIEW)
         self.user, self.pw = QLineEdit(store.saved_user()), QLineEdit()
         self.pw.setEchoMode(QLineEdit.Password)
         form.addRow("Server", self.server)
