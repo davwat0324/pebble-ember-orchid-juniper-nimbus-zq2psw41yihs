@@ -128,5 +128,7 @@ try {{
     ps1.write_text(script, encoding="utf-8-sig")
     # Run as text, not as a script file, so an execution policy set by Group Policy can't block it.
     cmd = f"& ([scriptblock]::Create((Get-Content -Raw -LiteralPath {_ps_quote(str(ps1))})))"
+    # CREATE_NO_WINDOW alone: combined with DETACHED_PROCESS the helper silently never ran (no copy, no restart).
+    # CREATE_NEW_PROCESS_GROUP keeps it alive after Remind exits.
     subprocess.Popen(["powershell", "-NoProfile", "-WindowStyle", "Hidden", "-Command", cmd],
-                     creationflags=subprocess.CREATE_NO_WINDOW | subprocess.DETACHED_PROCESS, close_fds=True)
+                     creationflags=subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP, close_fds=True)
